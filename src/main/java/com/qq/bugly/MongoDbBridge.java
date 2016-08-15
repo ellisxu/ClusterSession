@@ -11,7 +11,6 @@ import org.slf4j.LoggerFactory;
 import com.mongodb.Bytes;
 import com.mongodb.MongoClient;
 import com.mongodb.MongoClientOptions;
-import com.mongodb.ReadPreference;
 import com.mongodb.ServerAddress;
 import com.mongodb.WriteConcern;
 import com.mongodb.client.MongoCollection;
@@ -76,8 +75,8 @@ public class MongoDbBridge {
     MongoClient mc = new MongoClient(sas, mco);
     
     mc.setOptions(Bytes.QUERYOPTION_NOTIMEOUT);
-    mc.setOptions(Bytes.QUERYOPTION_SLAVEOK);
-    mc.setReadPreference(ReadPreference.secondaryPreferred());
+//    mc.setOptions(Bytes.QUERYOPTION_SLAVEOK);
+//    mc.setReadPreference(ReadPreference.secondaryPreferred());
     log.info("connect mongodb success!,mongodbSvrPort:{}", mongodbSvrPort);
     return mc;
   }

@@ -17,6 +17,7 @@ import javax.servlet.http.HttpSession;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
 /**
  * 
  * @author ellis
@@ -32,8 +33,12 @@ public class ClusterSessionFilter implements Filter {
   @Override
   public void init(FilterConfig filterConfig) throws ServletException {
     context = filterConfig.getServletContext();
-    type = filterConfig.getInitParameter(Constant.CONFIG_TYPE);
-    String intervalStr = filterConfig.getInitParameter(Constant.CONFIG_MAXINACTIVEINTERVAL);
+    String filePath = filterConfig.getInitParameter(Constant.CONFIG_FILE);
+    ConfigurationParser.initInstance(filePath);
+
+    type = ConfigurationParser.getInstance().getConfig().getString(Constant.CONFIG_TYPE);
+    String intervalStr = ConfigurationParser.getInstance().getConfig()
+        .getString(Constant.CONFIG_MAXINACTIVEINTERVAL);
     if (StringUtils.isNotBlank(intervalStr)) {
       try {
         maxInactiveInterval = Integer.valueOf(intervalStr);
@@ -54,16 +59,18 @@ public class ClusterSessionFilter implements Filter {
     }
 
     if (type.toLowerCase().equals(Constant.TYPE_MONGODB)) {
-      String hosts = filterConfig.getInitParameter(Constant.CONFIG_MONGODB_HOST);
+      String hosts =
+          ConfigurationParser.getInstance().getConfig().getString(Constant.CONFIG_MONGODB_HOST);
       if (StringUtils.isBlank(hosts)) {
         ClusterSessionException e =
             new ClusterSessionException(Constant.EXCEPTION_NONE_MONGODB_HOST);
         log.error("An error occurred while parsing the hosts param: {}", e.getMessage(), e);
         throw e;
       }
-      String dbName = filterConfig.getInitParameter(Constant.CONFIG_MONGODB_DB_NAME);
-      String collectionName =
-          filterConfig.getInitParameter(Constant.CONFIG_MONGODB_COLLECTION_NAME);
+      String dbName =
+          ConfigurationParser.getInstance().getConfig().getString(Constant.CONFIG_MONGODB_DB_NAME);
+      String collectionName = ConfigurationParser.getInstance().getConfig()
+          .getString(Constant.CONFIG_MONGODB_COLLECTION_NAME);
 
       MongoDbBridge.initInstance(hosts, dbName, collectionName);
     }
