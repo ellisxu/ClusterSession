@@ -31,12 +31,12 @@ public class Constant {
   public static final String MONGODB_COLLECTION_NAME = "cluster_session_collection";
   public static final String MONGODB_COLUMN_SESSION = "s";
 
-  public static final String CONFIG_FILE = "configuration";
-  public static final String CONFIG_TYPE = "type";
-  public static final String CONFIG_MAXINACTIVEINTERVAL = "maxInactiveInterval";
-  public static final String CONFIG_MONGODB_HOST = "hosts";
-  public static final String CONFIG_MONGODB_DB_NAME = "dbName";
-  public static final String CONFIG_MONGODB_COLLECTION_NAME = "collectionName";
+  public static final String CONFIG_FILE = "clustersession.configuration";
+  public static final String CONFIG_TYPE = "clustersession.type";
+  public static final String CONFIG_MAXINACTIVEINTERVAL = "clustersession.maxInactiveInterval";
+  public static final String CONFIG_MONGODB_HOST = "clustersession.hosts";
+  public static final String CONFIG_MONGODB_DB_NAME = "clustersession.dbName";
+  public static final String CONFIG_MONGODB_COLLECTION_NAME = "clustersession.collectionName";
   
   public static final int DEFAULT_MAXINACTIVEINTERVAL = 3600;
   

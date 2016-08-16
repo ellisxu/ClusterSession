@@ -186,7 +186,7 @@ public abstract class ClusterSession implements HttpSession {
 
   @Override
   public Object getAttribute(String name) {
-    if (this.currentClusterAttributesCache == null) {
+    if (this.currentClusterAttributesCache != null) {
       Map<String, Object> map = this.currentClusterAttributesCache;
 
       Object result = null;
@@ -215,7 +215,7 @@ public abstract class ClusterSession implements HttpSession {
   @SuppressWarnings({"rawtypes", "unchecked"})
   @Override
   public Enumeration getAttributeNames() {
-    if (this.currentClusterAttributesCache == null) {
+    if (this.currentClusterAttributesCache != null) {
       Map<String, Object> map = this.currentClusterAttributesCache;
       Enumeration<String> result = null;
 
@@ -289,7 +289,7 @@ public abstract class ClusterSession implements HttpSession {
   public void setAttribute(String name, Object value) {
     log.debug("setAttribute, name: {}, value: {}", name, value);
 
-    if (this.currentClusterAttributesCache == null) {
+    if (this.currentClusterAttributesCache != null) {
       if (Constant.ATTRIBUTE_NAMES_KEY.equals(name) || Constant.CREATION_TIME_KEY.equals(name)
           || Constant.LAST_ASSESSED_TIME_KEY.equals(name)) {
         ClusterSessionException e = new ClusterSessionException(Constant.EXCEPTION_RESERVED_KEY);
@@ -333,7 +333,7 @@ public abstract class ClusterSession implements HttpSession {
   public void removeAttribute(String name) {
     log.debug("removeAttribute, name: {}", name);
 
-    if (this.currentClusterAttributesCache == null) {
+    if (this.currentClusterAttributesCache != null) {
       if (Constant.ATTRIBUTE_NAMES_KEY.equals(name) || Constant.CREATION_TIME_KEY.equals(name)
           || Constant.LAST_ASSESSED_TIME_KEY.equals(name)) {
         ClusterSessionException e = new ClusterSessionException(Constant.EXCEPTION_RESERVED_KEY);
