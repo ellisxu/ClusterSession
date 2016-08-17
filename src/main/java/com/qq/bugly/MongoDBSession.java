@@ -58,6 +58,7 @@ public class MongoDBSession extends ClusterSession {
         out = new ObjectOutputStream(outputStream);
         out.writeObject(value);
         filter.append(Constant.MONGODB_COLUMN_SESSION, encode(outputStream.toByteArray()));
+        filter.append(Constant.MONGODB_COLUMN_WRITE_TIME, System.currentTimeMillis());
         if (cursor.hasNext()) {
           collection.replaceOne(Filters.eq("_id", filter.get("_id")), filter);
         } else {
@@ -95,9 +96,8 @@ public class MongoDBSession extends ClusterSession {
           e.getMessage(), e);
       result = false;
     }
-    long end = System.currentTimeMillis();
-
-    log.debug("set-duration: {}", end - start);
+    long duration = System.currentTimeMillis() - start;
+    MonitorBridge.monitor(Constant.OPERATION_SET, key, duration, result);
 
     return result;
   }
@@ -106,6 +106,7 @@ public class MongoDBSession extends ClusterSession {
   public Object get(String key) {
     long start = System.currentTimeMillis();
     Object result = null;
+    boolean getResult = false;
 
     MongoCollection<Document> collection = MongoDbBridge.getInstance().getCollection();
     if (collection != null) {
@@ -128,6 +129,7 @@ public class MongoDBSession extends ClusterSession {
           inputStream = new ByteArrayInputStream(data);
           in = new ObjectInputStream(inputStream);
           result = in.readObject();
+          getResult = true;
         }
       } catch (Exception e) {
         ClusterSessionException ce = new ClusterSessionException(e);
@@ -158,9 +160,8 @@ public class MongoDBSession extends ClusterSession {
           e.getMessage(), e);
     }
 
-    long end = System.currentTimeMillis();
-
-    log.debug("get-duration: {}", end - start);
+    long duration = System.currentTimeMillis() - start;
+    MonitorBridge.monitor(Constant.OPERATION_GET, key, duration, getResult);
 
     return result;
   }
@@ -189,9 +190,8 @@ public class MongoDBSession extends ClusterSession {
           e.getMessage(), e);
     }
 
-    long end = System.currentTimeMillis();
-
-    log.debug("delete-duration: {}", end - start);
+    long duration = System.currentTimeMillis() - start;
+    MonitorBridge.monitor(Constant.OPERATION_DELETE, key, duration, result);
 
     return result;
   }

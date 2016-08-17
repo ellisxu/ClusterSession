@@ -30,6 +30,7 @@ public class Constant {
   public static final String MONGODB_DB_NAME = "cluster_session_db";
   public static final String MONGODB_COLLECTION_NAME = "cluster_session_collection";
   public static final String MONGODB_COLUMN_SESSION = "s";
+  public static final String MONGODB_COLUMN_WRITE_TIME = "t";
 
   public static final String CONFIG_FILE = "clustersession.configuration";
   public static final String CONFIG_TYPE = "clustersession.type";
@@ -37,7 +38,11 @@ public class Constant {
   public static final String CONFIG_MONGODB_HOST = "clustersession.hosts";
   public static final String CONFIG_MONGODB_DB_NAME = "clustersession.dbName";
   public static final String CONFIG_MONGODB_COLLECTION_NAME = "clustersession.collectionName";
+  public static final String CONFIG_MONITOR = "clustersession.monitor";
   
   public static final int DEFAULT_MAXINACTIVEINTERVAL = 3600;
   
+  public static final String OPERATION_SET = "set";
+  public static final String OPERATION_GET = "get";
+  public static final String OPERATION_DELETE = "delete";
 }

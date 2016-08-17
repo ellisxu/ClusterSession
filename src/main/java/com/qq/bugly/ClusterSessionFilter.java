@@ -35,6 +35,9 @@ public class ClusterSessionFilter implements Filter {
     context = filterConfig.getServletContext();
     String filePath = filterConfig.getInitParameter(Constant.CONFIG_FILE);
     ConfigurationParser.initInstance(filePath);
+    
+    String monitorClass = ConfigurationParser.getInstance().getConfig().getString(Constant.CONFIG_MONITOR);
+    MonitorBridge.initInstance(monitorClass);
 
     type = ConfigurationParser.getInstance().getConfig().getString(Constant.CONFIG_TYPE);
     String intervalStr = ConfigurationParser.getInstance().getConfig()
